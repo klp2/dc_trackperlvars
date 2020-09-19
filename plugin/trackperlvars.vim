@@ -62,7 +62,7 @@ function! TPV__setup ()
 
         " cv --> change variable...
         nmap <silent> <special> <buffer>         cv  :silent call TPV_rename_perl_var('normal')<CR>
-        vmap <silent> <special> <buffer>         cv  :silent call TPV_rename_perl_var('visual')<CR>gv
+        xmap <silent> <special> <buffer>         cv  :silent call TPV_rename_perl_var('visual')<CR>gv
 
         " gd --> goto definition...
         nmap <special> <buffer><silent> gd  :let @/ = TPV_locate_perl_var_decl()<CR>
@@ -103,7 +103,7 @@ endfunction
 
 "=====[ Implementation ]==========================================
 
-" Track last highlighted var for vmaps...
+" Track last highlighted var for xmaps...
 let s:prev_sigil   = ""
 let s:prev_varname = ""
 
@@ -343,7 +343,7 @@ let s:MATCH_VAR_PAT = join([
 \     '\(',
 \         '[@%]\zs[$]',
 \     '\|',
-\         '[@%]',
+\         '[@%]\K\@=',
 \     '\|',
 \         '[$]\zs[$]\K\@=',
 \     '\|',
@@ -351,7 +351,7 @@ let s:MATCH_VAR_PAT = join([
 \     '\|',
 \         '[@%]\zs[$][.!*?:]',
 \     '\|',
-\         '[@%][.!*?:]',
+\         '\%(->\)\@<![@%][.!*?:]',
 \     '\|',
 \         '[$][#.!*?:]',
 \     '\|',
